@@ -1,9 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  cacheComponents: true,
-  partialPrefetching: true,
+  // Plain static site in out/, can be hosted anywhere (GitHub Pages, Vercel, ...)
+  output: "export",
   turbopack: {
     rules: {
       "*.css": {

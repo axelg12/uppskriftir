@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🍳 Matur
 
-## Getting Started
+My recipe site. Next.js + Tailwind, exported as a static site (`out/`).
 
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```sh
+npm run dev       # http://localhost:3000
+npm run build     # static site in out/
+npm test          # importer + parser check
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Adding a recipe
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+From a URL (reads the schema.org recipe data most recipe sites have):
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```sh
+npm run import -- https://www.bbcgoodfood.com/recipes/thai-red-curry --category Kvöldmatur
+```
 
-## Learn More
+Then open the new file in `content/recipes/` and fill in the protein, tags and your own notes.
+Or copy any existing file and write it by hand.
 
-To learn more about Next.js, take a look at the following resources:
+## Recipe format
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+One markdown file per recipe in `content/recipes/`. The filename is the URL slug.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```md
+---
+title: Thai curry (rautt/grænt)
+category: Kvöldmatur        # Kvöldmatur | Morgunmatur | Bakstur | Sósur | Drykkir
+protein: [Tófú, Kjúklingur]  # shown in the sidebar under "Prótein"
+tags: [Hversdags]            # e.g. Fljótlegt, Hversdags, Hátíð, Jól, Vegan, Matarboð
+source: https://...          # optional, link to the original recipe
+servings: Fyrir 4            # optional
+time: 30 mín                 # optional
+image: /images/x.jpg         # optional, card + header photo (files go in public/images/)
+---
 
-## Deploy on Vercel
+My own notes. Everything above the first heading is shown as
+"Mínar athugasemdir" at the top of the recipe.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Innihald
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Optional group heading
+
+- ingredient
+
+## Aðferð
+
+1. step
+
+## Any other section
+
+Rendered below the recipe (nutrition tables, tips, screenshots, ...).
+```
+
+Link to another recipe with `/uppskriftir/<slug>`. The build fails if a file is missing `title` or has an unknown `category`.
